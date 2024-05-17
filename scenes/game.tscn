@@ -1,0 +1,374 @@
+[gd_scene load_steps=24 format=3 uid="uid://d2dtxfm56oyui"]
+
+[ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_peknk"]
+[ext_resource type="Script" path="res://scripts/game/game.gd" id="1_u12gi"]
+[ext_resource type="Texture2D" uid="uid://bpr70vru2tkqr" path="res://assets/textures/background/background_layer1.png" id="2_ygu1t"]
+[ext_resource type="Texture2D" uid="uid://cg00j6oslr8le" path="res://assets/textures/background/background_layer2.png" id="3_rwnw7"]
+[ext_resource type="Texture2D" uid="uid://do02g15o3y2le" path="res://assets/textures/background/background_layer3.png" id="4_wx44b"]
+[ext_resource type="Script" path="res://scripts/game/obstacle_spawner.gd" id="5_bd7vu"]
+[ext_resource type="Texture2D" uid="uid://ckwk1ek5pxjjw" path="res://assets/textures/player/ship.png" id="5_uu1uu"]
+[ext_resource type="PackedScene" uid="uid://4ydjbqm1uc6n" path="res://scenes/player.tscn" id="7_hv21w"]
+[ext_resource type="Texture2D" uid="uid://bv18t556prqri" path="res://assets/textures/ui/panel_border_crop.tres" id="10_plhsx"]
+[ext_resource type="FontFile" uid="uid://dtrrghi8jwbrm" path="res://assets/font/font_main.otf" id="11_7xygk"]
+[ext_resource type="Script" path="res://scripts/game/ui_overlay.gd" id="11_o4jr6"]
+[ext_resource type="Script" path="res://scripts/game/game_camera.gd" id="11_uy2ry"]
+[ext_resource type="Texture2D" uid="uid://cn5or8tb7v4nt" path="res://assets/textures/entities/pickups.png" id="15_lyk11"]
+[ext_resource type="AudioStream" uid="uid://bwgn3yoxw7nv" path="res://assets/sound/music/game_loop.ogg" id="16_2oisv"]
+[ext_resource type="Texture2D" uid="uid://dcxv04rl8axt4" path="res://assets/textures/ui/panel_border_white.png" id="16_7bhe7"]
+[ext_resource type="Texture2D" uid="uid://cacgs6uw5ocxn" path="res://assets/textures/player/missile.png" id="17_cimt2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j216a"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rv766"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_uhdgf"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hrxlg"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5dc8"]
+atlas = ExtResource("15_lyk11")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iv2wc"]
+atlas = ExtResource("16_7bhe7")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m13m"]
+atlas = ExtResource("17_cimt2")
+region = Rect2(8, 8, 16, 16)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_u12gi")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("1_peknk")
+
+[node name="Layer1" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_ygu1t")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Layer2" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_rwnw7")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Layer3" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_wx44b")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="WallBottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-36, 90)
+shape = SubResource("WorldBoundaryShape2D_j216a")
+
+[node name="WallTop" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-36, -90)
+shape = SubResource("WorldBoundaryShape2D_rv766")
+
+[node name="WallL" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160, 0)
+shape = SubResource("WorldBoundaryShape2D_uhdgf")
+
+[node name="WallR" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88, 0)
+shape = SubResource("WorldBoundaryShape2D_hrxlg")
+
+[node name="Obstacles" type="Node2D" parent="."]
+position = Vector2(-36, -100)
+script = ExtResource("5_bd7vu")
+
+[node name="SpawnIntervalTimer" type="Timer" parent="Obstacles"]
+one_shot = true
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Missiles" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("7_hv21w")]
+position = Vector2(-36, 64)
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("11_uy2ry")
+
+[node name="ShakeTimer" type="Timer" parent="Camera"]
+one_shot = true
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+offset = Vector2(-160, -90)
+transform = Transform2D(1, 0, 0, 1, -160, -90)
+script = ExtResource("11_o4jr6")
+
+[node name="Background" type="NinePatchRect" parent="Overlay"]
+texture_filter = 1
+offset_left = 245.0
+offset_top = -3.0
+offset_right = 323.0
+offset_bottom = 183.0
+texture = ExtResource("10_plhsx")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="TextTime" type="Label" parent="Overlay"]
+texture_filter = 1
+offset_left = 249.0
+offset_top = 14.0
+offset_right = 319.0
+offset_bottom = 36.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+text = "00:00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextPoints" type="Label" parent="Overlay"]
+texture_filter = 1
+offset_left = 246.0
+offset_top = 36.0
+offset_right = 280.0
+offset_bottom = 58.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TexturePoints" type="TextureRect" parent="Overlay/TextPoints"]
+layout_mode = 0
+offset_left = 35.0
+offset_right = 75.0
+offset_bottom = 40.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_c5dc8")
+
+[node name="Shop" type="Control" parent="Overlay"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 248.0
+offset_right = 319.0
+offset_bottom = 180.0
+
+[node name="Option1" type="NinePatchRect" parent="Overlay/Shop"]
+modulate = Color(0.5, 0.5, 0.5, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 5.0
+offset_top = 96.0
+offset_right = 67.0
+offset_bottom = 128.0
+pivot_offset = Vector2(31, 16)
+texture = SubResource("AtlasTexture_iv2wc")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Sprite" type="TextureRect" parent="Overlay/Shop/Option1"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 62.0
+offset_bottom = 52.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_0m13m")
+
+[node name="Sprite2" type="TextureRect" parent="Overlay/Shop/Option1"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 3.0
+offset_right = 68.0
+offset_bottom = 51.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_0m13m")
+
+[node name="Sprite3" type="TextureRect" parent="Overlay/Shop/Option1"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 4.0
+offset_right = 74.0
+offset_bottom = 52.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_0m13m")
+
+[node name="TextPoints" type="Label" parent="Overlay/Shop/Option1"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -7.0
+offset_top = 22.0
+offset_right = 27.0
+offset_bottom = 44.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+theme_override_font_sizes/font_size = 8
+text = "2"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TexturePoints" type="TextureRect" parent="Overlay/Shop/Option1/TextPoints"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 76.0
+offset_bottom = 43.0
+scale = Vector2(0.35, 0.35)
+texture = SubResource("AtlasTexture_c5dc8")
+
+[node name="Option2" type="NinePatchRect" parent="Overlay/Shop"]
+modulate = Color(0.5, 0.5, 0.5, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 5.0
+offset_top = 63.0
+offset_right = 67.0
+offset_bottom = 95.0
+pivot_offset = Vector2(31, 16)
+texture = SubResource("AtlasTexture_iv2wc")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Sprite" type="TextureRect" parent="Overlay/Shop/Option2"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = -8.0
+offset_right = 55.0
+offset_bottom = 40.0
+texture = ExtResource("5_uu1uu")
+
+[node name="TextPoints" type="Label" parent="Overlay/Shop/Option2"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -7.0
+offset_top = 22.0
+offset_right = 27.0
+offset_bottom = 44.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+theme_override_font_sizes/font_size = 8
+text = "4"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TexturePoints" type="TextureRect" parent="Overlay/Shop/Option2/TextPoints"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 76.0
+offset_bottom = 43.0
+scale = Vector2(0.35, 0.35)
+texture = SubResource("AtlasTexture_c5dc8")
+
+[node name="TextPurchaseInfo" type="Label" parent="Overlay/Shop"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_top = 149.0
+offset_right = 72.0
+offset_bottom = 171.0
+pivot_offset = Vector2(36, 11)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+theme_override_font_sizes/font_size = 8
+text = "Press shift to upgrade!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EndScreen" type="Control" parent="Overlay"]
+visible = false
+z_index = 100
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Overlay/EndScreen"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -17.0
+offset_right = 336.0
+offset_bottom = 193.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="TextInfo" type="Label" parent="Overlay/EndScreen"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 158.0
+offset_right = 247.0
+offset_bottom = 180.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+text = "Press space to continue!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextTime" type="Label" parent="Overlay/EndScreen"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 247.0
+offset_bottom = 161.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("11_7xygk")
+text = "Final time:
+00:00
+
+Final points:
+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextControls" type="RichTextLabel" parent="Overlay"]
+texture_filter = 1
+offset_top = 27.0
+offset_right = 248.0
+offset_bottom = 166.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("11_7xygk")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]
+[color=#ff2e6d][WASD][/color] or [color=#ff2e6d][ARROWS][/color]
+to move!
+
+[color=#ff2e6d][SPACE][/color] to shoot!
+
+[color=#ff2e6d][SHIFT][/color] to upgrade"
+
+[node name="ProgressionTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_2oisv")
+autoplay = true
+bus = &"Music"
+
+[connection signal="timeout" from="Obstacles/SpawnIntervalTimer" to="Obstacles" method="_on_spawn_interval_timer_timeout"]
+[connection signal="timeout" from="Camera/ShakeTimer" to="Camera" method="_on_shake_timer_timeout"]
+[connection signal="timeout" from="ProgressionTimer" to="." method="_on_progression_timer_timeout"]

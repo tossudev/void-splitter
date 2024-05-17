@@ -1,0 +1,591 @@
+[gd_scene load_steps=19 format=3 uid="uid://dh6dme6dvjx2u"]
+
+[ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_ek0oj"]
+[ext_resource type="Script" path="res://scripts/main_menu/background.gd" id="1_u6nw0"]
+[ext_resource type="Texture2D" uid="uid://bpr70vru2tkqr" path="res://assets/textures/background/background_layer1.png" id="3_rnjyu"]
+[ext_resource type="Texture2D" uid="uid://cg00j6oslr8le" path="res://assets/textures/background/background_layer2.png" id="4_hiefd"]
+[ext_resource type="Texture2D" uid="uid://do02g15o3y2le" path="res://assets/textures/background/background_layer3.png" id="5_sr6rq"]
+[ext_resource type="Script" path="res://scripts/main_menu/animation_controller.gd" id="8_6ois2"]
+[ext_resource type="Texture2D" uid="uid://bv18t556prqri" path="res://assets/textures/ui/panel_border_crop.tres" id="8_dc5se"]
+[ext_resource type="FontFile" uid="uid://dtrrghi8jwbrm" path="res://assets/font/font_main.otf" id="8_mbcv1"]
+[ext_resource type="Script" path="res://scripts/main_menu/credits_meta.gd" id="9_2k6x0"]
+[ext_resource type="Script" path="res://scripts/main_menu/settings.gd" id="10_xpcx3"]
+[ext_resource type="Texture2D" uid="uid://dudj30yft3otl" path="res://assets/textures/ui/ui_slider_full.png" id="11_o82qy"]
+[ext_resource type="Texture2D" uid="uid://csveq48ogxbuu" path="res://assets/textures/ui/ui_slider_empty.png" id="11_t60n8"]
+[ext_resource type="Texture2D" uid="uid://ccq712s810dv6" path="res://assets/textures/ui/ui_checkmark.png" id="13_1ajwr"]
+[ext_resource type="AudioStream" uid="uid://bccsxoldasghr" path="res://assets/sound/music/menu_loop.ogg" id="15_1tm4x"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ceu0w"]
+load_path = "res://.godot/imported/ninepatch.png-bf3f8259eaa8e694c1739552447d45d2.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r38uj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0l7ru"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d86kj"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_ek0oj")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("1_u6nw0")
+
+[node name="Layer1" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_rnjyu")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Layer2" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_hiefd")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Layer3" type="Sprite2D" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_sr6rq")
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1800)
+
+[node name="Menus" type="Node2D" parent="."]
+
+[node name="Main" type="Node2D" parent="Menus"]
+
+[node name="Title" type="RichTextLabel" parent="Menus/Main"]
+texture_filter = 1
+offset_left = -128.0
+offset_top = -67.0
+offset_right = 128.0
+offset_bottom = -39.0
+pivot_offset = Vector2(128, 14)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("8_mbcv1")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center][color=#ff2e6d]V[/color]oid [color=#ff2e6d]S[/color]plitter"
+
+[node name="Buttons" type="Control" parent="Menus/Main"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 88.0
+
+[node name="ButtonPlay" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 32.0
+offset_top = -2.0
+offset_right = 96.0
+offset_bottom = 22.0
+focus_next = NodePath("../ButtonSettings")
+
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonPlay"]
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 24.0
+mouse_filter = 2
+
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonPlay/Contents"]
+self_modulate = Color(0.9, 0.9, 0.9, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.0
+offset_top = -5.0
+offset_right = 55.0
+offset_bottom = 27.0
+texture = ExtResource("8_dc5se")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonPlay/Contents"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 24.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSettings" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 24.0
+offset_top = 31.0
+offset_right = 104.0
+offset_bottom = 55.0
+focus_next = NodePath("../ButtonQuit")
+focus_previous = NodePath("../ButtonPlay")
+
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonSettings"]
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 24.0
+mouse_filter = 2
+
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonSettings/Contents"]
+self_modulate = Color(0.9, 0.9, 0.9, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 4.0
+offset_top = -5.0
+offset_right = 75.0
+offset_bottom = 27.0
+texture = ExtResource("8_dc5se")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonSettings/Contents"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 24.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonQuit" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 96.0
+offset_bottom = 88.0
+
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonQuit"]
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 24.0
+mouse_filter = 2
+
+[node name="Background" type="NinePatchRect" parent="Menus/Main/Buttons/ButtonQuit/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = -5.0
+offset_right = 53.0
+offset_bottom = 27.0
+texture = ExtResource("8_dc5se")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonQuit/Contents"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 24.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Quit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCredits" type="Button" parent="Menus/Main/Buttons" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 168.0
+offset_top = 80.0
+offset_right = 224.0
+offset_bottom = 96.0
+
+[node name="Contents" type="Control" parent="Menus/Main/Buttons/ButtonCredits"]
+anchors_preset = 0
+offset_right = 56.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Menus/Main/Buttons/ButtonCredits/Contents"]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 48.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Credits"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Credits" type="Node2D" parent="Menus"]
+position = Vector2(320, 0)
+
+[node name="CameraEditorReference" type="Camera2D" parent="Menus/Credits"]
+enabled = false
+
+[node name="TextCredits" type="RichTextLabel" parent="Menus/Credits"]
+offset_left = -152.0
+offset_top = -85.0
+offset_right = 152.0
+offset_bottom = 88.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = ExtResource("8_mbcv1")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center][color=#ff2e6d]
+[wave amp=20.0 freq=5.0 connected=1]Credits[/wave][/color]
+
+
+Programming and design by Tossu
+[color=#28ccdf][url]https://tossu.itch.io[/url][/color]
+
+Art by Foozlecc and BDragon1727
+Art - [color=#28ccdf][url]https://foozlecc.itch.io[/url][/color]
+UI Art - [color=#28ccdf][url]https://bdragon1727.itch.io[/url][/color]
+
+Music by vmrrobotic and PiXeLMan659
+Menu - [color=#28ccdf][url]https://www.newgrounds.com/audio/listen/1215623[/url][/color]
+Game - [color=#28ccdf][url]https://www.newgrounds.com/audio/listen/1242515[/url][/color]
+
+Font used is Techno Race by Nirmana Visual
+[color=#28ccdf][url]https://nirmanavisual.com[/url][/color]"
+meta_underlined = false
+script = ExtResource("9_2k6x0")
+
+[node name="ButtonBack" type="Button" parent="Menus/Credits" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 120.0
+offset_top = 68.0
+offset_right = 152.0
+offset_bottom = 84.0
+
+[node name="Contents" type="Control" parent="Menus/Credits/ButtonBack"]
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Credits/ButtonBack/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -9.0
+offset_top = -8.0
+offset_right = 39.0
+offset_bottom = 24.0
+texture = ExtResource("8_dc5se")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Text" type="Label" parent="Menus/Credits/ButtonBack/Contents"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Node2D" parent="Menus"]
+position = Vector2(-320, 0)
+
+[node name="CameraEditorReference" type="Camera2D" parent="Menus/Settings"]
+enabled = false
+
+[node name="ButtonBack" type="Button" parent="Menus/Settings" groups=["buttons"]]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 120.0
+offset_top = 68.0
+offset_right = 152.0
+offset_bottom = 84.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/ButtonBack"]
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="SpriteBackground" type="NinePatchRect" parent="Menus/Settings/ButtonBack/Contents"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -9.0
+offset_top = -8.0
+offset_right = 39.0
+offset_bottom = 24.0
+texture = ExtResource("8_dc5se")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Text" type="Label" parent="Menus/Settings/ButtonBack/Contents"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Control" parent="Menus/Settings"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -152.0
+offset_top = -78.0
+offset_right = 152.0
+offset_bottom = 82.0
+mouse_filter = 2
+script = ExtResource("10_xpcx3")
+
+[node name="ButtonFullscreen" type="CheckButton" parent="Menus/Settings/Settings" groups=["buttons", "togglebuttons"]]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 196.0
+offset_bottom = 44.0
+
+[node name="Contents" type="Control" parent="Menus/Settings/Settings/ButtonFullscreen"]
+anchors_preset = 0
+offset_right = 96.0
+offset_bottom = 24.0
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/ButtonFullscreen/Contents"]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 24.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "      Fullscreen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheckBox" type="TextureRect" parent="Menus/Settings/Settings/ButtonFullscreen/Contents"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 72.0
+offset_right = 96.0
+offset_bottom = 24.0
+texture = SubResource("CompressedTexture2D_ceu0w")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Checked" type="TextureRect" parent="Menus/Settings/Settings/ButtonFullscreen/Contents/CheckBox"]
+visible = false
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("13_1ajwr")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="VolumeMaster" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 54.0
+offset_right = 200.0
+offset_bottom = 78.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeMaster"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Master" type="HSlider" parent="Menus/Settings/Settings/VolumeMaster"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+theme_override_icons/grabber = SubResource("CompressedTexture2D_ceu0w")
+theme_override_icons/grabber_highlight = SubResource("CompressedTexture2D_ceu0w")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeMaster"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Master Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeMusic" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 86.0
+offset_right = 200.0
+offset_bottom = 110.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeMusic"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Music" type="HSlider" parent="Menus/Settings/Settings/VolumeMusic"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+theme_override_icons/grabber = SubResource("CompressedTexture2D_ceu0w")
+theme_override_icons/grabber_highlight = SubResource("CompressedTexture2D_ceu0w")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeMusic"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Music Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeSfx" type="Control" parent="Menus/Settings/Settings"]
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 118.0
+offset_right = 200.0
+offset_bottom = 142.0
+
+[node name="SliderBackground" type="TextureProgressBar" parent="Menus/Settings/Settings/VolumeSfx"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 8
+stretch_margin_right = 4
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_t60n8")
+texture_progress = ExtResource("11_o82qy")
+
+[node name="Sfx" type="HSlider" parent="Menus/Settings/Settings/VolumeSfx"]
+self_modulate = Color(0.890196, 0.407843, 0.521569, 1)
+texture_filter = 1
+layout_mode = 0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 20.0
+theme_override_icons/grabber = SubResource("CompressedTexture2D_ceu0w")
+theme_override_icons/grabber_highlight = SubResource("CompressedTexture2D_ceu0w")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_r38uj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0l7ru")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_d86kj")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Text" type="Label" parent="Menus/Settings/Settings/VolumeSfx"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("8_mbcv1")
+theme_override_font_sizes/font_size = 12
+text = "Effects Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("8_6ois2")
+do_title_animation = true
+title_node_path = NodePath("../Menus/Main/Title")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_1tm4x")
+autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonSettings" to="." method="_on_button_settings_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonQuit" to="." method="_on_button_quit_pressed"]
+[connection signal="pressed" from="Menus/Main/Buttons/ButtonCredits" to="." method="_on_button_credits_pressed"]
+[connection signal="meta_clicked" from="Menus/Credits/TextCredits" to="Menus/Credits/TextCredits" method="_on_meta_clicked"]
+[connection signal="pressed" from="Menus/Credits/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="pressed" from="Menus/Settings/ButtonBack" to="." method="_on_button_back_pressed"]
+[connection signal="pressed" from="Menus/Settings/ButtonBack" to="Menus/Settings/Settings" method="_on_button_back_pressed"]
+[connection signal="pressed" from="Menus/Settings/Settings/ButtonFullscreen" to="Menus/Settings/Settings" method="_on_button_fullscreen_pressed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMaster/Master" to="Menus/Settings/Settings" method="_on_master_value_changed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeMusic/Music" to="Menus/Settings/Settings" method="_on_music_value_changed"]
+[connection signal="value_changed" from="Menus/Settings/Settings/VolumeSfx/Sfx" to="Menus/Settings/Settings" method="_on_sfx_value_changed"]

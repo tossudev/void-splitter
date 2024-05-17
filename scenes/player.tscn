@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=3 uid="uid://4ydjbqm1uc6n"]
+
+[ext_resource type="Script" path="res://scripts/game/player.gd" id="1_qc4ie"]
+[ext_resource type="Texture2D" uid="uid://bqnxliswrn2rr" path="res://assets/textures/player/particles_idle.png" id="2_kimbm"]
+[ext_resource type="Texture2D" uid="uid://ct845bmxiqdjk" path="res://assets/textures/player/particles_move.png" id="3_fmi0f"]
+[ext_resource type="Texture2D" uid="uid://ckwk1ek5pxjjw" path="res://assets/textures/player/ship.png" id="4_hi202"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63n2j"]
+atlas = ExtResource("2_kimbm")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jeyhr"]
+atlas = ExtResource("2_kimbm")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hoo2"]
+atlas = ExtResource("2_kimbm")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojojk"]
+atlas = ExtResource("3_fmi0f")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdf1u"]
+atlas = ExtResource("3_fmi0f")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v22u0"]
+atlas = ExtResource("3_fmi0f")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvtmp"]
+atlas = ExtResource("3_fmi0f")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jla7v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63n2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jeyhr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hoo2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojojk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdf1u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v22u0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvtmp")
+}],
+"loop": true,
+"name": &"move",
+"speed": 30.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehdto"]
+size = Vector2(16, 16)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_qc4ie")
+
+[node name="FireAnimation" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_jla7v")
+animation = &"idle"
+frame_progress = 0.47092
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("4_hi202")
+
+[node name="CollisionMovement" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ehdto")
+
+[node name="ShootPosition" type="Marker2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="ShootIntervalTimer" type="Timer" parent="."]
+
+[node name="Clones" type="Node2D" parent="."]
+
+[node name="Clone" type="Node2D" parent="Clones"]
+modulate = Color(1, 1, 1, 0.6)
+position = Vector2(-24, 5)
+scale = Vector2(0.6, 0.6)
+
+[node name="FireAnimation" type="AnimatedSprite2D" parent="Clones/Clone"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_jla7v")
+animation = &"idle"
+frame_progress = 0.47092
+
+[node name="Sprite" type="Sprite2D" parent="Clones/Clone"]
+texture_filter = 1
+texture = ExtResource("4_hi202")
+
+[node name="ShootPosition" type="Marker2D" parent="Clones/Clone"]
+position = Vector2(0, -16)
+
+[node name="ShootIntervalTimer" type="Timer" parent="Clones/Clone"]
+
+[node name="Clone2" type="Node2D" parent="Clones"]
+modulate = Color(1, 1, 1, 0.6)
+position = Vector2(24, 5)
+scale = Vector2(0.6, 0.6)
+
+[node name="FireAnimation" type="AnimatedSprite2D" parent="Clones/Clone2"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_jla7v")
+animation = &"idle"
+frame_progress = 0.47092
+
+[node name="Sprite" type="Sprite2D" parent="Clones/Clone2"]
+texture_filter = 1
+texture = ExtResource("4_hi202")
+
+[node name="ShootPosition" type="Marker2D" parent="Clones/Clone2"]
+position = Vector2(0, -16)
+
+[node name="ShootIntervalTimer" type="Timer" parent="Clones/Clone2"]
+
+[connection signal="timeout" from="ShootIntervalTimer" to="." method="_on_shoot_interval_timer_timeout"]
+[connection signal="timeout" from="Clones/Clone/ShootIntervalTimer" to="Clones/Clone" method="_on_shoot_interval_timer_timeout"]
+[connection signal="timeout" from="Clones/Clone2/ShootIntervalTimer" to="Clones/Clone2" method="_on_shoot_interval_timer_timeout"]
